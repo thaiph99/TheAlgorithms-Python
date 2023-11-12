@@ -100,7 +100,9 @@ def binarize(image: np.ndarray, threshold: float = 127.0) -> np.ndarray:
     return np.where(image > threshold, 1, 0)
 
 
-def transform(image: np.ndarray, kind: str, kernel: np.ndarray = None) -> np.ndarray:
+def transform(
+    image: np.ndarray, kind: str, kernel: np.ndarray | None = None
+) -> np.ndarray:
     """
     Simple image transformation using one of two available filter functions:
     Erosion and Dilation.
@@ -154,7 +156,7 @@ def transform(image: np.ndarray, kind: str, kernel: np.ndarray = None) -> np.nda
     return transformed
 
 
-def opening_filter(image: np.ndarray, kernel: np.ndarray = None) -> np.ndarray:
+def opening_filter(image: np.ndarray, kernel: np.ndarray | None = None) -> np.ndarray:
     """
     Opening filter, defined as the sequence of
     erosion and then a dilation filter on the same image.
@@ -172,7 +174,7 @@ def opening_filter(image: np.ndarray, kernel: np.ndarray = None) -> np.ndarray:
     return transform(transform(image, "dilation", kernel), "erosion", kernel)
 
 
-def closing_filter(image: np.ndarray, kernel: np.ndarray = None) -> np.ndarray:
+def closing_filter(image: np.ndarray, kernel: np.ndarray | None = None) -> np.ndarray:
     """
     Opening filter, defined as the sequence of
     dilation and then erosion filter on the same image.
@@ -251,13 +253,13 @@ def matrix_concurrency(image: np.ndarray, coordinate: tuple[int, int]) -> np.nda
 
 
 def haralick_descriptors(matrix: np.ndarray) -> list[float]:
-    """Calculates all 8 Haralick descriptors based on co-occurence input matrix.
+    """Calculates all 8 Haralick descriptors based on co-occurrence input matrix.
     All descriptors are as follows:
     Maximum probability, Inverse Difference, Homogeneity, Entropy,
     Energy, Dissimilarity, Contrast and Correlation
 
     Args:
-        matrix: Co-occurence matrix to use as base for calculating descriptors.
+        matrix: Co-occurrence matrix to use as base for calculating descriptors.
 
     Returns:
         Reverse ordered list of resulting descriptors
